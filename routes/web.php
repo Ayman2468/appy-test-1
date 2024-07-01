@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InvoiceDetailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,10 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://appydev-001-site2.atempurl.com/Unit');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $response = curl_exec($ch);
-    dd(json_decode($response)[10]->id);
     return view('welcome');
 });
+Route::get('/invoice_details',[InvoiceDetailController::class, 'index']);

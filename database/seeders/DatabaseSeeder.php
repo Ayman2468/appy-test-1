@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        $unitsArray = [];
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://appydev-001-site2.atempurl.com/Unit');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -29,9 +28,27 @@ class DatabaseSeeder extends Seeder
         $response = json_decode($response);
         $response = array_splice($response , 0 , 10);
         foreach ($response as $r) {
-            DB::table('Unit')->insert([
+            DB::table('units')->insert([
                 'Unit' => $r->id,
                 'unitName' => $r->name
+            ]);
+        }
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://appydev-001-site2.atempurl.com/InvoiceDetail');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        $response = json_decode($response);
+        $response = array_splice($response , 0 , 10);
+        foreach ($response as $r) {
+            DB::table('invoice_details')->insert([
+                'lineNo' => $r->lineNo,
+                'productName' => $r->productName,
+                'UnitNo' => $r->unitNo,
+                'price' => $r->price,
+                'quantity' => $r->quantity,
+                'total' => $r->total,
+                'expiryDate' => $r->expiryDate,
             ]);
         }
     }
